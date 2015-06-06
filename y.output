@@ -1,0 +1,187 @@
+
+state 0
+	$accept: .top $end 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	line  goto 2
+	expr  goto 3
+	assignment  goto 6
+	top  goto 1
+
+state 1
+	$accept:  top.$end 
+
+	$end  accept
+	.  error
+
+
+state 2
+	top:  line.    (1)
+
+	.  reduce 1 (src line 40)
+
+
+state 3
+	line:  expr.NEWLINE 
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr.DIVISION_OP expr 
+
+	ADDITION_OP  shift 8
+	SUBTRACTION_OP  shift 9
+	MULTIPLICATION_OP  shift 10
+	DIVISION_OP  shift 11
+	NEWLINE  shift 7
+	.  error
+
+
+state 4
+	expr:  INTEGER.    (3)
+
+	.  reduce 3 (src line 52)
+
+
+state 5
+	expr:  IDENTIFIER.    (4)
+	assignment:  IDENTIFIER.ASSIGNMENT_OP expr 
+
+	ASSIGNMENT_OP  shift 12
+	.  reduce 4 (src line 54)
+
+
+state 6
+	expr:  assignment.    (5)
+
+	.  reduce 5 (src line 58)
+
+
+state 7
+	line:  expr NEWLINE.    (2)
+
+	.  reduce 2 (src line 47)
+
+
+state 8
+	expr:  expr ADDITION_OP.expr 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	expr  goto 13
+	assignment  goto 6
+
+state 9
+	expr:  expr SUBTRACTION_OP.expr 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	expr  goto 14
+	assignment  goto 6
+
+state 10
+	expr:  expr MULTIPLICATION_OP.expr 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	expr  goto 15
+	assignment  goto 6
+
+state 11
+	expr:  expr DIVISION_OP.expr 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	expr  goto 16
+	assignment  goto 6
+
+state 12
+	assignment:  IDENTIFIER ASSIGNMENT_OP.expr 
+
+	INTEGER  shift 4
+	IDENTIFIER  shift 5
+	.  error
+
+	expr  goto 17
+	assignment  goto 6
+
+state 13
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr ADDITION_OP expr.    (6)
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr.DIVISION_OP expr 
+
+	MULTIPLICATION_OP  shift 10
+	DIVISION_OP  shift 11
+	.  reduce 6 (src line 59)
+
+
+state 14
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr SUBTRACTION_OP expr.    (7)
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr.DIVISION_OP expr 
+
+	MULTIPLICATION_OP  shift 10
+	DIVISION_OP  shift 11
+	.  reduce 7 (src line 63)
+
+
+state 15
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr MULTIPLICATION_OP expr.    (8)
+	expr:  expr.DIVISION_OP expr 
+
+	.  reduce 8 (src line 67)
+
+
+state 16
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr.DIVISION_OP expr 
+	expr:  expr DIVISION_OP expr.    (9)
+
+	.  reduce 9 (src line 71)
+
+
+state 17
+	expr:  expr.ADDITION_OP expr 
+	expr:  expr.SUBTRACTION_OP expr 
+	expr:  expr.MULTIPLICATION_OP expr 
+	expr:  expr.DIVISION_OP expr 
+	assignment:  IDENTIFIER ASSIGNMENT_OP expr.    (10)
+
+	ADDITION_OP  shift 8
+	SUBTRACTION_OP  shift 9
+	MULTIPLICATION_OP  shift 10
+	DIVISION_OP  shift 11
+	.  reduce 10 (src line 76)
+
+
+11 terminals, 5 nonterminals
+11 grammar rules, 18/2000 states
+0 shift/reduce, 0 reduce/reduce conflicts reported
+54 working sets used
+memory: parser 13/30000
+0 extra closures
+26 shift entries, 1 exceptions
+9 goto entries
+5 entries saved by goto default
+Optimizer space used: output 25/30000
+25 table entries, 2 zero
+maximum spread: 11, maximum offset: 12
